@@ -14,6 +14,7 @@ namespace RestaurantReviews.Data.Context {
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<RestaurantReview> RestaurantReviews { get; set; }
         public DbSet<Cuisine> Cuisines { get; set; }
+       //
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

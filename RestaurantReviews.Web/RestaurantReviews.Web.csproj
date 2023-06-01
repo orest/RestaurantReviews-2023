@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.16">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,6 +22,11 @@
   <ItemGroup>
     <ProjectReference Include="..\RestaurantReviews.Data\RestaurantReviews.Data.csproj" />
     <ProjectReference Include="..\RestaurantReviews.Models\RestaurantReviews.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+    <Folder Include="Pages\Reviews\" />
   </ItemGroup>
 
 </Project>

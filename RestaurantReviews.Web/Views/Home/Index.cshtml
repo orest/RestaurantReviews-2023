@@ -1,8 +1,33 @@
-﻿@{
+﻿@model List<RestaurantListVm>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section BannerSection
+{
+    <banner title="Orest is a nice guy" intro="Very very nice guy"></banner>
+}
+
+
+<i class="bi bi-star-fill text-warning"></i>
+<i class="bi bi-star  text-warning"></i>
+
+<div class="container">
+    <div class="row">
+        @foreach (var restaurant in Model) {
+            <div class="col-4">
+                <div class="card ">
+                    <img src="https://picsum.photos/300/@(200 + restaurant.RestaurantId)" class="card-img-top" alt="">
+                    <div class="card-body">
+                        <h5 class="card-title">@restaurant.Name @restaurant.AverageRating   @restaurant.CountOfReviews</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+                        <div class="text-end">
+                            <a asp-controller="Restaurants" asp-action="Details" asp-route-id="@restaurant.RestaurantId" class="btn btn-primary">Restaurant Info</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

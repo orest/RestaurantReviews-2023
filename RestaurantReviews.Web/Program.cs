@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReviews.Data.Context;
+using RestaurantReviews.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,15 @@ var connectionString = builder.Configuration.GetConnectionString("RestaurantDb")
 builder.Services.AddDbContext<RestaurantContext>(opt => {
     opt.UseSqlServer(connectionString);
 });
+
+builder.Services.AddScoped(p =>
+    new MapperConfiguration(conf => {
+        conf.AddProfile(new AutoMapperProfile());
+    }).CreateMapper());
+
+
+builder.Services.AddScoped<IRestaurantRepo, RestaurantRepo>();
+
 var app = builder.Build();
 
 
