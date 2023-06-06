@@ -11,7 +11,7 @@ namespace RestaurantReviews.Web.Services {
         }
         public List<Restaurant> GetAllRestaurants() {
             var restaurants = _context.Restaurants
-                .Include(p=>p.Reviews)
+                .Include(p => p.Reviews)
                 .ToList();
             return restaurants;
         }
@@ -21,11 +21,21 @@ namespace RestaurantReviews.Web.Services {
             return restaurant;
         }
 
-        public RestaurantReview RestaurantReviewCreate(RestaurantReview model)
-        {
+        public RestaurantReview RestaurantReviewCreate(RestaurantReview model) {
             _context.RestaurantReviews.Add(model);
             _context.SaveChanges();
             return model;
+        }
+
+        public List<Cuisine> CuisinesRetrieve() {
+            return _context.Cuisines.ToList();
+        }
+
+        public List<Restaurant> GetRestaurantsByCuisine(string cuisine) {
+            return _context.Restaurants
+                .Include(p => p.Reviews)
+                .Where(p => p.Cuisine.CuisineCode == cuisine)
+                .ToList();
         }
     }
 }

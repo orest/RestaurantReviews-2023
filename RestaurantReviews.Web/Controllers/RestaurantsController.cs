@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.Configuration.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,16 @@ namespace RestaurantReviews.Web.Controllers {
     public class RestaurantsController : Controller {
         private readonly RestaurantContext _context;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public RestaurantsController(RestaurantContext context, IMapper mapper) {
+        public RestaurantsController(RestaurantContext context, IMapper mapper,
+            IConfiguration configuration,
+            IWebHostEnvironment webHostEnvironment) {
             _context = context;
             _mapper = mapper;
+            _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Restaurants
@@ -85,13 +92,41 @@ namespace RestaurantReviews.Web.Controllers {
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RestaurantId,Name,CuisineCode,Address,City,StateCd,Zip,Phone,Website,Country,PriceRange,ImageUrl")] Restaurant restaurant) {
+        public async Task<IActionResult> Edit(int id, Restaurant restaurant, IFormFile restaurantImage) {
             if (id != restaurant.RestaurantId) {
                 return NotFound();
             }
 
+
+
+
             if (ModelState.IsValid) {
                 try {
+
+                    if (restaurantImage != null && restaurantImage.Length > 0) {
+                        var imageBaseUrl = _configuration["RestaurantImageUrl"];
+                        var rootPath = _webHostEnvironment.WebRootPath;
+                        rootPath += imageBaseUrl.Replace("/", "\\");
+                        var directoryPath = Path.Combine(rootPath, restaurant.RestaurantId.ToString());
+
+                        if (!Directory.Exists(directoryPath)) {
+                            Directory.CreateDirectory(directoryPath);
+                        }
+                        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(restaurantImage.FileName);
+
+                        var filePath = Path.Combine(directoryPath, fileName);
+
+                        if (System.IO.File.Exists(filePath)) {
+                            System.IO.File.Delete(filePath);
+                        }
+
+                        using (var stream = System.IO.File.Create(filePath)) {
+                            await restaurantImage.CopyToAsync(stream);
+                        }
+
+                        restaurant.ImageUrl = fileName;
+                    }
+
                     _context.Update(restaurant);
                     await _context.SaveChangesAsync();
                 } catch (DbUpdateConcurrencyException) {

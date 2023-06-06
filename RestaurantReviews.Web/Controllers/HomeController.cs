@@ -11,20 +11,28 @@ namespace RestaurantReviews.Web.Controllers {
         private readonly IRestaurantRepo _restaurantRepo;
         private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger, 
+        public HomeController(ILogger<HomeController> logger,
             IRestaurantRepo restaurantRepo,
             IMapper mapper
-            )
-        {
+            ) {
             _logger = logger;
             _restaurantRepo = restaurantRepo;
             _mapper = mapper;
         }
 
-        public IActionResult Index() {
-            List<Restaurant> restaurants = _restaurantRepo.GetAllRestaurants();
-            var vm = _mapper.Map<List<RestaurantListVm>>(restaurants);
+        public IActionResult Index(string cuisine = null) {
+            List<Restaurant> restaurants;
+            if (cuisine != null) {
+                restaurants = _restaurantRepo.GetRestaurantsByCuisine(cuisine);
+            } else {
+                restaurants = _restaurantRepo.GetAllRestaurants();
+            }
 
+            var listVms = _mapper.Map<List<RestaurantListVm>>(restaurants);
+            var vm = new HomeVm() {
+                RestaurantList = listVms,
+                Cuisines = _restaurantRepo.CuisinesRetrieve()
+            };
             return View(vm);
         }
 

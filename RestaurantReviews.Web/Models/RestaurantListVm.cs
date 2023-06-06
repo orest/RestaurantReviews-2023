@@ -2,6 +2,7 @@
 
 namespace RestaurantReviews.Web.Models {
     public class RestaurantListVm {
+        
         public int RestaurantId { get; set; }
         public string Name { get; set; }
         public string CuisineCode { get; set; }
@@ -14,6 +15,20 @@ namespace RestaurantReviews.Web.Models {
         public string Country { get; set; }
         public int PriceRange { get; set; }
         public string ImageUrl { get; set; }
+
+        public string WebImageUrl {
+            get {
+                var url = "/images/not-avail.jpg";
+                
+                if (!string.IsNullOrWhiteSpace(ImageUrl)) {
+
+                    url = $"/images/restaurants/{RestaurantId}/{ImageUrl}";
+                    //url = $"{_configuration["RestaurantImageUrl"]}{RestaurantId}/{ImageUrl}";
+                }
+                return url;
+            }
+        }
+
         public int CountOfReviews { get; set; }
         public double AverageRating { get; set; }
 

@@ -27,6 +27,7 @@
   <ItemGroup>
     <Folder Include="NewFolder\" />
     <Folder Include="Pages\Reviews\" />
+    <Folder Include="wwwroot\images\restaurants\" />
   </ItemGroup>
 
 </Project>
