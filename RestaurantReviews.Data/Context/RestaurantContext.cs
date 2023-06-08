@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReviews.Models;
 
 namespace RestaurantReviews.Data.Context {
-    public class RestaurantContext : DbContext {
+    public class RestaurantContext  : IdentityDbContext<IdentityUser>  {
         public RestaurantContext(DbContextOptions<RestaurantContext> options) : base(options) {
 
         }

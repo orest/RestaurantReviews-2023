@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.Configuration.Annotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ using RestaurantReviews.Web.Models;
 using RestaurantReviews.Web.Services;
 
 namespace RestaurantReviews.Web.Controllers {
+    [Authorize]
     public class RestaurantsController : Controller {
         private readonly RestaurantContext _context;
         private readonly IMapper _mapper;
