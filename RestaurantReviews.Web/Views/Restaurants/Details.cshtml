@@ -1,46 +1,59 @@
-﻿@model RestaurantReviews.Models.Restaurant
+﻿@model RestaurantDetailsPageVm
 
 @{
     ViewData["Title"] = "Details";
 }
-<h1>
-    @Model.Name
-</h1>
-
-<hr>
-<h2>Reviews</h2>
 
 
-@if (Model.Reviews.Any()) {
-    <div class="py-2 text-end">
-        <a asp-controller="Reviews" asp-action="Create" asp-route-restaurantId="@Model.RestaurantId" class="btn btn-success">Add New</a>
-    </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Rating</th>
-                <th>Date</th>
-                <th>Review</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var review in Model.Reviews) {
-                <tr>
-                    <td>@review.ReviewerName</td>
-                    <td>@review.Rating</td>
-                    <td>@review.ReviewDate.ToString("MM/dd/yyyy")</td>
-                    <td>@review.Body</td>
-                </tr>
-            }
 
-        </tbody>
-    </table>
-} else {
-    <div class="alert alert-info">
-        <h5 class="text-center"> Be first one to review</h5>
-        <div class="py-2 text-center mt-4">
-            <a asp-controller="Reviews" asp-action="Create" asp-route-restaurantId="@Model.RestaurantId" class="btn btn-success">Add Review</a>
+<div class="row">
+    <div class="col-3">
+        <h2>Filter</h2>
+        <div>
+            @await Component.InvokeAsync("CuisineFilter")
+
         </div>
     </div>
-}
+    
+    <div class="col-9">
+        <h2>Reviews</h2>
+
+
+        @if (Model.Restaurant.Reviews.Any()) {
+            <div class="py-2 text-end">
+                <a asp-controller="Reviews" asp-action="Create" asp-route-restaurantId="@Model.Restaurant.RestaurantId" class="btn btn-success">Add New</a>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Rating</th>
+                        <th>Date</th>
+                        <th>Review</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var review in Model.Restaurant.Reviews) {
+                        <tr>
+                            <td>@review.ReviewerName</td>
+                            <td>@review.Rating</td>
+                            <td>@review.ReviewDate.ToString("MM/dd/yyyy")</td>
+                            <td>@review.Body</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        } else {
+            <div class="alert alert-info">
+                <h5 class="text-center"> Be first one to review</h5>
+                <div class="py-2 text-center mt-4">
+                    <a asp-controller="Reviews" asp-action="Create" asp-route-restaurantId="@Model.Restaurant.RestaurantId" class="btn btn-success">Add Review</a>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+

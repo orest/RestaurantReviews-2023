@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using RestaurantReviews.Data.Context;
 using RestaurantReviews.Models;
 using RestaurantReviews.Web.Models;
+using RestaurantReviews.Web.Services;
 
 namespace RestaurantReviews.Web.Controllers {
     public class RestaurantsController : Controller {
@@ -17,14 +18,17 @@ namespace RestaurantReviews.Web.Controllers {
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IRestaurantRepo _restaurantRepo;
 
         public RestaurantsController(RestaurantContext context, IMapper mapper,
             IConfiguration configuration,
-            IWebHostEnvironment webHostEnvironment) {
+            IWebHostEnvironment webHostEnvironment,
+            IRestaurantRepo restaurantRepo) {
             _context = context;
             _mapper = mapper;
             _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
+            _restaurantRepo = restaurantRepo;
         }
 
         // GET: Restaurants
@@ -47,7 +51,12 @@ namespace RestaurantReviews.Web.Controllers {
                 return NotFound();
             }
 
-            return View(restaurant);
+            var vm = new RestaurantDetailsPageVm()
+            {
+                Restaurant = restaurant
+            };
+
+            return View(vm);
         }
 
         // GET: Restaurants/Create

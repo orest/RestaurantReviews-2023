@@ -8,6 +8,7 @@ namespace RestaurantReviews.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            
             migrationBuilder.InsertData(
                 table: "Cuisines",
                 columns: new[] { "CuisineCode", "CssClass", "Description", "DisplayName" },
@@ -24,6 +25,7 @@ namespace RestaurantReviews.Data.Migrations
                     { "Russian", null, "Russian", "Russian" },
                     { "Ukrainian", null, "Ukrainian", "Ukrainian" }
                 });
+            
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

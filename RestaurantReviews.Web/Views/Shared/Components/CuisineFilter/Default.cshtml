@@ -1,0 +1,10 @@
+﻿@model List<RestaurantReviews.Models.Cuisine>
+
+<ul class="list-group">
+    @foreach (var c in Model) {
+        <li class="list-group-item">
+            <a class="text-dark text-decoration-none"
+           asp-controller="Home" asp-action="Index" asp-route-cuisine="@c.CuisineCode">@c.DisplayName</a>
+        </li>
+    }
+</ul>

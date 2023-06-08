@@ -31,7 +31,7 @@ namespace RestaurantReviews.Web.Controllers {
             var listVms = _mapper.Map<List<RestaurantListVm>>(restaurants);
             var vm = new HomeVm() {
                 RestaurantList = listVms,
-                Cuisines = _restaurantRepo.CuisinesRetrieve()
+                //Cuisines = _restaurantRepo.CuisinesRetrieve()
             };
             return View(vm);
         }
